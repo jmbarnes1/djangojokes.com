@@ -5,7 +5,18 @@
   <h2>Jokes</h2>
   <ul class="list-group list-group-flush mb-3">
     {% for joke in joke_list %}
-      <li class="list-group-item">{{ joke.question }}</li>
+      <li class="list-group-item">
+        <!-- <a href="{% url 'jokes:detail' joke.pk %}">{{ joke.question }}</a> -->
+        <a href="{{ joke.get_absolute_url }}">{{ joke.question }}</a>
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}
+
+<!-- joke.pk holds the primary key. -->
+<!-- 
+ An alternative to constructing URLs with the url tag is 
+ to use the get_absolute_url() method, like this:
+
+joke.get_absolute_url
+-->

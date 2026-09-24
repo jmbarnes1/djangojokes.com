@@ -16,7 +16,7 @@ from django.urls import path
 # Look in the current directory (denoted by .). 
 # Import the module named views (which corresponds to the file views.py). 
 # Retrieve the specific class or function named JokeListView from that module.
-from .views import JokeListView
+from .views import JokeDetailView, JokeListView
 
 
 """
@@ -38,5 +38,12 @@ within templates or views using the application namespace.
 
 app_name = 'jokes'
 urlpatterns = [
-    path('',JokeListView.as_view(),name='list'),
+    path('joke/<int:pk>/',JokeDetailView.as_view(), name='detail'),
+    path('', JokeListView.as_view(), name='list'),
 ]
+
+"""
+The path is constructed as “joke/<int:pk>/”. int:pk indicates that the value entered 
+for this part of the path must be an integer. The view will have access to this value 
+via self.kwargs.get('pk') and will use it to get the specific joke object to use.
+"""

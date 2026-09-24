@@ -10,11 +10,16 @@ with less boilerplate code.
 Integration: Views are mapped to URLs in urls.py and often render HTML templates with data fetched from models.
 """
 
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from .models import Joke
 
 # By default, Django will be looking for joke_list.html
 class JokeListView(ListView):
     model = Joke
+
+
+class JokeDetailView(DetailView):
+    model = Joke
+
 
