@@ -16,7 +16,7 @@ from django.urls import path
 # Look in the current directory (denoted by .). 
 # Import the module named views (which corresponds to the file views.py). 
 # Retrieve the specific class or function named JokeListView from that module.
-from .views import JokeCreateView, JokeDetailView, JokeListView, JokeUpdateView
+from .views import JokeCreateView, JokeDeleteView, JokeDetailView, JokeListView, JokeUpdateView
 
 
 """
@@ -39,7 +39,8 @@ within templates or views using the application namespace.
 app_name = 'jokes'
 urlpatterns = [
     path('joke/<int:pk>/update', JokeUpdateView.as_view(), name='update'),
-    path('joke/create/', JokeCreateView.as_view() , name='create'),
+    path('joke/<int:pk>/delete', JokeDeleteView.as_view(), name='delete'),
+    path('joke/create/', JokeCreateView.as_view(), name='create'),
     path('joke/<int:pk>/', JokeDetailView.as_view(), name='detail'),
     path('', JokeListView.as_view(), name='list'),
 ]
