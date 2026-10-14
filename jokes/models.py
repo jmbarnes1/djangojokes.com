@@ -11,7 +11,7 @@ class Joke(models.Model):
     question = models.TextField(max_length=200)
     answer = models.TextField(max_length=100, blank=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag',blank=True)
     slug = models.SlugField(
         max_length=50, unique=True, null=False, editable=False
     )
@@ -52,6 +52,7 @@ class Category(models.Model):
         return self.category
     class Meta:
         verbose_name_plural = "Categories"
+        ordering = ['category']
 
 
 class Tag(models.Model):
@@ -73,5 +74,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.tag
+    class Meta: 
+        ordering = ['tag']
+
+    
 
 
