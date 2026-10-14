@@ -15,28 +15,33 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 from .models import Joke
 
+from .forms import JokeForm
+
 # By default, Django will be looking for joke_list.html
 
 class JokeCreateView(CreateView):
     model = Joke
-    fields = ['question','answer']
+    # fields = ['question','answer']
+    form_class = JokeForm
+
+class JokeUpdateView(UpdateView):
+    model = Joke
+    # fields = ['question', 'answer']
+    form_class = JokeForm
 
 class JokeDeleteView(DeleteView):
     model = Joke
-    success_url = reverse_lazy('joke:list')
-
+    success_url = reverse_lazy('joke:list')  
 
 class JokeListView(ListView):
     model = Joke
-
 
 class JokeDetailView(DetailView):
     model = Joke
 
 
-class JokeUpdateView(UpdateView):
-    model = Joke
-    fields = ['question', 'answer']
+
+
 
 """
 Notice that we use reverse_lazy() here. The view is created before the URL 
