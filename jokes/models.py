@@ -76,7 +76,3 @@ class Tag(models.Model):
         return self.tag
     class Meta: 
         ordering = ['tag']
-
-    
-
-
