@@ -1,13 +1,16 @@
 import html
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import CreateView, TemplateView
 
 from common.utils.email import send_email
+
+from .models import Applicant
 from .forms import JobApplicationForm
 # Create your views here.
 
-class JobAppView(FormView):
-    template_name = 'jobs/joke_writer.html' # indetifies the template used to render the form.
+class JobAppView(CreateView):
+    # template_name = 'jobs/joke_writer.html' # indetifies the template used to render the form.
+    model = Applicant
     form_class = JobApplicationForm # indentifies the form class, which contains the form fields.
     success_url = reverse_lazy('jobs:thanks') # points to the URL to open when the form is successfully processed.
 
