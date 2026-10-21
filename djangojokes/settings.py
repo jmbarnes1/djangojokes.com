@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     # Third-party
     'crispy_forms',
     'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     # local apps
     'common.apps.CommonConfig',
@@ -54,6 +57,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'jobs.apps.JobsConfig',
 ]
+
+SITE_ID = 1
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
@@ -103,6 +108,13 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, even w/o `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth`-specific auth methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -124,6 +136,41 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Authentication Settings
 AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'pages:homepage'
+
+## django-allauth settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # Default: 'username'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1 # Default: 3
+ACCOUNT_EMAIL_REQUIRED = True # Default: False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Default: 'optional'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5 # Default: 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300 # Default 300
+ACCOUNT_LOGOUT_REDIRECT_URL ='account_login' # Default: '/'
+ACCOUNT_USERNAME_REQUIRED = False # Default: True
+
+"""
+Here is what each of these settings does:
+
+LOGIN_URL – The URL or named URL pattern that Django redirects to when a a user must be logged in to access a page. Django’s default value is '/accounts/login/' (a URL), but django-allauth includes a named URL pattern (“account_login”) referencing its login path ('/account/login/' without the 's').
+LOGIN_REDIRECT_URL – The default URL or named URL pattern to redirect to after a successful login. You have set it to 'pages:homepage' – the named URL pattern for the home page.
+ACCOUNT_AUTHENTICATION_METHOD – Specifies how the user logs in: 'email', 'username' (the default), or 'username_email'. You have set it to 'email'.
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS – When a user registers, they will be sent an email with a confirmation link. This setting determines how many days that link will be valid. you have set it to 1.
+ACCOUNT_EMAIL_REQUIRED – Indicates whether an email address is required at registration. The default is False. You have changed this to True.
+ACCOUNT_EMAIL_VERIFICATION – Indicates whether the user is required to verify their email address. Possible values are:
+'optional' (the default) – The user is sent a verification email, but is not required to verify.
+'mandatory' – The user is sent a verification email and cannot log in until they have clicked the link. ACCOUNT_EMAIL_REQUIRED must be True.
+'none' – The user is not sent a verification email.
+You have set it to 'mandatory'.
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT (default: 5) and ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT (default: 300) – A user has ACCOUNT_LOGIN_ATTEMPTS_LIMIT tries to log in before their account is locked for ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT seconds. You have used the defaults.
+ACCOUNT_LOGOUT_REDIRECT_URL – The URL (or named URL pattern) to redirect to when the user logs out. The default is '/'. You have changed it to 'account_login', which is the named URL pattern used by django-allauth for the login view.
+ACCOUNT_USERNAME_REQUIRED – Whether a username is required at sign up. The default is True. When set to False, the username will be derived from the email address or the first_name field if it’s not empty. You have set it to False.
+
+http://127.0.0.1:8000/account/logout/
+Registration: http://127.0.0.1:8000/account/signup/
+Login: http://127.0.0.1:8000/account/login/
+
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
