@@ -148,6 +148,7 @@ ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5 # Default: 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300 # Default 300
 ACCOUNT_LOGOUT_REDIRECT_URL ='account_login' # Default: '/'
 ACCOUNT_USERNAME_REQUIRED = False # Default: True
+ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.SignupForm'
 
 """
 Here is what each of these settings does:
@@ -204,3 +205,86 @@ MAILERS = {
 if os.environ.get('ENVIRONMENT') != 'production':
     from .local_settings import *
 # DON'T PUT ANYTHING BELOW THIS
+
+
+
+"""
+All auth settings
+ACCOUNT_ADAPTER	"allauth.account.adapter.DefaultAccountAdapter"	Swap the adapter class to customize behavior
+ACCOUNT_FORMS	{}	Override built-in forms (login, signup, etc.)
+ACCOUNT_PREVENT_ENUMERATION	True	Prevent leaking whether an account exists
+ACCOUNT_TEMPLATE_EXTENSION	"html"	Template file extension
+
+Account – Signup
+Setting	Default	Purpose
+ACCOUNT_SIGNUP_FIELDS	(derived)	Define which fields appear on the signup form
+ACCOUNT_SIGNUP_FORM_CLASS	(default)	Custom signup form class
+ACCOUNT_SIGNUP_REDIRECT_URL	None	Redirect target after signup
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE	True	Require password confirmation field
+ACCOUNT_USERNAME_REQUIRED	True	Whether a username is required
+ACCOUNT_UNIQUE_USERNAME	True	Enforce unique usernames
+ACCOUNT_USER_MODEL_USERNAME_FIELD	"username"	Which model field is used as the "username"
+
+Account – Email
+Setting	Default	Purpose
+ACCOUNT_EMAIL_REQUIRED	False	Require an email address
+ACCOUNT_EMAIL_VERIFICATION	"optional"	"none", "optional", or "mandatory"
+ACCOUNT_UNIQUE_EMAIL	True	Enforce unique email addresses
+ACCOUNT_MAX_EMAIL_ADDRESSES	None	Max email addresses per account
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS	3	Days before a confirmation link expires
+ACCOUNT_EMAIL_CONFIRMATION_HMAC	True	Use HMAC keys for verification (no server-side state)
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED	False	Send a code instead of a link for verification
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_TIMEOUT	600	Code expiry in seconds
+ACCOUNT_EMAIL_NOTIFICATIONS	True	Send notification emails on account changes
+
+Account – Login / Sessions
+Setting	Default	Purpose
+ACCOUNT_LOGIN_METHODS	{"username", "email"}	Which login methods are enabled
+ACCOUNT_SESSION_REMEMBER	None	None = ask, True = always, False = never
+ACCOUNT_LOGIN_TIMEOUT	900	Max seconds for multi-step login
+ACCOUNT_LOGIN_ON_PASSWORD_RESET	False	Auto-login after password reset
+ACCOUNT_LOGIN_BY_CODE_ENABLED	False	Enable "magic code" login via email
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS	True	Redirect logged-in users away from login/signup pages
+
+Account – Password
+Setting	Default	Purpose
+ACCOUNT_PASSWORD_MIN_LENGTH	6	Min password length (if no Django validators set)
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE	False	Render the password field's value
+ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED	False	Reset via code instead of a link
+ACCOUNT_PASSWORD_RESET_BY_CODE_MAX_ATTEMPTS	3	Max reset code attempts
+
+Account – Security / Rate Limiting
+Setting	Default	Purpose
+ACCOUNT_REAUTHENTICATION_REQUIRED	False	Require re-authentication for sensitive actions
+ACCOUNT_RATE_LIMITS	{}	Per-action rate limits (e.g. {"login": "20/m/ip"})
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT	None	Max failed login attempts
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT	300	Lockout window (seconds)
+
+Account – Routing / Redirects
+Setting	Default	Purpose
+LOGIN_REDIRECT_URL	Django default	Redirect after login
+ACCOUNT_LOGOUT_REDIRECT_URL	settings.LOGOUT_REDIRECT_URL or "/"	Redirect after logout
+ACCOUNT_LOGOUT_ON_GET	False	Allow logout via GET (not recommended)
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL	settings.LOGIN_URL	Redirect after email confirm (not logged in)
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL	None	Redirect after email confirm (logged in)
+
+Social Account
+Setting	Default	Purpose
+SOCIALACCOUNT_AUTO_SIGNUP	True	Auto-create account on social login
+SOCIALACCOUNT_EMAIL_REQUIRED	(derived)	Require email on social signup
+SOCIALACCOUNT_EMAIL_VERIFICATION	(derived)	Email verification for social accounts
+SOCIALACCOUNT_PROVIDERS	{}	Provider-specific config (client ID, secret, scopes, etc.)
+SOCIALACCOUNT_QUERY_EMAIL	(derived)	Request email from the provider
+SOCIALACCOUNT_STORE_TOKENS	False	Store access tokens in the database
+SOCIALACCOUNT_LOGIN_ON_GET	False	Allow social login initiation via GET
+SOCIALACCOUNT_ADAPTER	(default)	Custom social account adapter
+SOCIALACCOUNT_FORMS	{}	Override social account forms
+SOCIALACCOUNT_REQUESTS_TIMEOUT	5	Timeout for upstream OAuth requests
+
+Global
+Setting	Default	Purpose
+ALLAUTH_DEFAULT_AUTO_FIELD	(Django default)	Primary key type for allauth models
+ALLAUTH_TRUSTED_PROXY_COUNT	None	Number of trusted proxy hops
+ALLAUTH_TRUSTED_CLIENT_IP_HEADER	None	Header to read the real client IP from
+
+"""
