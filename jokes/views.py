@@ -21,8 +21,12 @@ from .forms import JokeForm
 
 class JokeCreateView(CreateView):
     model = Joke
-    # fields = ['question','answer']
+    # fields = ['question','answer'] # without form_class, this would build the form.  Now it goes to the joke form.
     form_class = JokeForm
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class JokeUpdateView(UpdateView):
     model = Joke
