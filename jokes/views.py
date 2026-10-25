@@ -9,6 +9,8 @@ with less boilerplate code.
 
 Integration: Views are mapped to URLs in urls.py and often render HTML templates with data fetched from models.
 """
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -19,7 +21,7 @@ from .forms import JokeForm
 
 # By default, Django will be looking for joke_list.html
 
-class JokeCreateView(CreateView):
+class JokeCreateView(LoginRequiredMixin, CreateView):
     model = Joke
     # fields = ['question','answer'] # without form_class, this would build the form.  Now it goes to the joke form.
     form_class = JokeForm
@@ -28,23 +30,28 @@ class JokeCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class JokeUpdateView(UpdateView):
+class JokeUpdateView(UserPassesTestMixin, UpdateView):
     model = Joke
     # fields = ['question', 'answer']
     form_class = JokeForm
 
-class JokeDeleteView(DeleteView):
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
+
+class JokeDeleteView(UserPassesTestMixin, DeleteView):
     model = Joke
-    success_url = reverse_lazy('joke:list')  
+    success_url = reverse_lazy('joke:list')
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
 
 class JokeListView(ListView):
     model = Joke
 
 class JokeDetailView(DetailView):
     model = Joke
-
-
-
 
 
 """
