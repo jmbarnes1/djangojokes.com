@@ -46,6 +46,9 @@ class Applicant(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    resume = models.FileField(
+        upload_to='private/resumes', blank=True, help_text='PDFs only'
+    )   
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} ({self.job})'

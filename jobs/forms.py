@@ -37,7 +37,7 @@ class JobApplicationForm(forms.ModelForm):
         fields = (
             'first_name', 'last_name', 'email', 'website', 'employment_type',
             'start_date', 'available_days', 'desired_hourly_wage',
-            'cover_letter', 'confirmation', 'job')
+            'cover_letter', 'resume' ,'confirmation', 'job')
         widgets = {
             'first_name': forms.TextInput(attrs={'autofocus': True}),
             'website': forms.TextInput(
@@ -53,6 +53,7 @@ class JobApplicationForm(forms.ModelForm):
                 attrs = {'min':'10.00', 'max':'100.00', 'step':'.25'}
             ),
             'cover_letter': forms.Textarea(attrs={'cols': '100', 'rows': '5'}),
+            'resume': forms.FileInput(attrs={'accept':'application/pdf'}),
         }
         error_messages = {
             'start_date': {

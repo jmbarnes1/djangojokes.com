@@ -5,7 +5,8 @@
 {% block main %}
   <h2 class="text-center">Joke Writer Application</h2>
   <div class="card border-primary m-auto mb-3 p-3" style="max-width: 40rem">
-      <form method="post" novalidate>
+    <!-- nonvalidate allows django errors to be seen. -->
+      <form method="post" novalidate enctype="multipart/form-data" autocomplete="off">
         {% csrf_token %}
 
     <div class="row">
@@ -50,6 +51,8 @@
       </div>
 
       {{ form.cover_letter|as_crispy_field }}
+      {{ form.resume|as_crispy_field }}
+
       {{ form.confirmation|as_crispy_field }}
 
         <!-- {{ form.as_p }} -->
