@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'private_storage',
 
     # local apps
     'common.apps.CommonConfig',
@@ -196,6 +197,15 @@ STATICFILES_DIRS = [
 # Media files 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# private-storage settings
+PRIVATE_STORAGE_ROOT = MEDIA_ROOT / 'private/'
+PRIVATE_STORAGE_AUTH_FUNCTION = 'private_storage.permissions.allow_staff'
+
+"""
+private_storage.permissions.allow_authenticated
+private_storage.permissions.allow_superuser
+"""
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
