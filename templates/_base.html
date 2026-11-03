@@ -56,8 +56,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'my-account' %}">My Account</a>
             <a class="dropdown-item" 
-              href="{% url 'jokes:creator' user.username %}?order={{ order }}&dir ↵↵
-ection={{ direction }}">
+              href="{% url 'jokes:creator' user.username %}?order={{ order }}&direction={{ direction }}">
               My Django Jokes
             </a>
             <div class="dropdown-divider"></div>
@@ -69,16 +68,22 @@ ection={{ direction }}">
         </li>
         {% endif %}
       </ul>
-      <form class="row my-2 my-lg-0 row">
-        <input class="form-control me-sm-2 col" type="search"
-        placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0 me-4 col" type="submit">
+      <form action="{% url 'jokes:list' %}" class="row my-2 my-lg-0 row">
+        <input type="search" 
+          name="q"
+          class="form-control me-sm-2 col" 
+          value="{{ request.GET.q }}"
+          placeholder="Search" 
+          aria-label="Search">
+        <button type="submit" 
+          class="btn btn-outline-success my-2 my-sm-0 me-4 col">
           Search
         </button>
       </form>
     </div>
   </nav>
 </header>
+
 <main class="m-4 pb-5">
 
   {% if messages %}
@@ -112,6 +117,7 @@ ection={{ direction }}">
     </div>
   </nav>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>

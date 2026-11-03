@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -11,6 +12,7 @@ from django.views.generic import (
 
 from .forms import JokeForm
 from .models import Joke, JokeVote
+
 
 class JokeCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Joke
@@ -98,6 +100,12 @@ class JokeListView(ListView):
         ordering = self.get_ordering()
         qs = Joke.objects.all()
 
+        if 'q' in self.request.GET: # Filter by search query
+            q = self.request.GET.get('q') 
+            qs = qs.filter(
+                Q(question__icontains=q) | Q(answer__icontains=q)
+            )
+
         if 'slug' in self.kwargs: # Filter by category or tag
             slug = self.kwargs['slug']
             if '/category' in self.request.path_info:
@@ -108,7 +116,7 @@ class JokeListView(ListView):
             username = self.kwargs['username']
             qs = qs.filter(user__username=username)
 
-        return qs.order_by(ordering)
+        return qs.prefetch_related('category', 'user').order_by(ordering)
 
 
 class JokeUpdateView(SuccessMessageMixin, UserPassesTestMixin, UpdateView):

@@ -4,11 +4,12 @@
 {% block main %}
   <div class="row">
     <div class="col-12 col-md-2 col-lg-3">
-      <h2>Jokes</h2>
+      <h2>JOKES</h2>
     </div>
     <div class="col-12 col-md-8 col-lg-6">
       <form class="my-2 mx-auto" style="max-width: 30rem;">
-        <label class="my-1 me-2" for="order">Order By:</label>
+        <input type="hidden" name="q" value="{{ request.GET.q }}">
+        <label class="my-1 me-2" for="order">ORDER BY:</label>
         <select class="form-select me-sm-2" name="order" id="order">
           {% for field in order_fields %}
             <option value="{{ field }}"
@@ -19,8 +20,7 @@
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="direction" 
             id="asc" value="asc"
-            {% if direction == 'asc' %}checked{% endif %}
-          >
+            {% if direction == 'asc' %}checked{% endif %}>
           <label class="form-check-label" for="asc">ASC</label>
         </div>
         <div class="form-check form-check-inline">
@@ -31,13 +31,13 @@
           <label class="form-check-label" for="desc">DESC</label>
         </div>
         <button class="btn btn-primary btn-sm m-2" type="submit">
-          Sort
+          SORT
         </button>
       </form>
     </div>
     <div class="col-12 col-md-2 col-lg-3 text-end">
       <a class="btn btn-success btn-sm m-2" href="{% url 'jokes:create' %}">
-        + New Joke
+        + NEW JOKE
       </a>
     </div>
   </div>
@@ -48,20 +48,21 @@
         {% with order=request.GET.order dir=request.GET.direction %}
           <tr>
             {% if order == 'joke' and dir == 'asc' %}
-              <th><a href="?order=joke&direction=desc">Joke</a></th>
+              <th><a href="?order=joke&direction=desc&q={{ request.GET.q }}">JOKE</a></th>
             {% else %}
-              <th><a href="?order=joke&direction=asc">Joke</a></th>
+              <th><a href="?order=joke&direction=asc&q={{ request.GET.q }}">JOKE</a></th>
             {% endif %}
             {% if order == 'category' and dir == 'asc' %}
-              <th><a href="?order=category&direction=desc">Category</a></th>
+              <th><a href="?order=category&direction=desc&q={{ request.GET.q }}">CATEGORY</a></th>
             {% else %}
-              <th><a href="?order=category&direction=asc">Category</a></th>
+              <th><a href="?order=category&direction=asc&q={{ request.GET.q }}">CATEGORY</a></th>
             {% endif %}
             {% if order == 'creator' and dir == 'asc' %}
-              <th><a href="?order=creator&direction=desc">Creator</a></th>
+              <th><a href="?order=creator&direction=desc&q={{ request.GET.q }}">CREATOR</a></th>
             {% else %}
-              <th><a href="?order=creator&direction=asc">Creator</a></th>
+              <th><a href="?order=creator&direction=asc&q={{ request.GET.q }}">CREATOR</a></th>
             {% endif %}
+            <th>RATING</th>
           </tr>
         {% endwith %}
       </thead>
@@ -101,6 +102,13 @@
                   </a>
                 </small>
               {% endif %}
+            </td>
+            <td>
+              <div id="rating-container" title="{{ joke.rating }}">
+                <div id="rating"
+                  style="width:{% widthratio joke.rating 10 100 %}%;"></div>
+              </div>
+              {{ joke.num_votes }} vote{{ joke.num_votes|pluralize }}
             </td>
           </tr>
         {% endfor %}
