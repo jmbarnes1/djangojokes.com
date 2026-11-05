@@ -25,6 +25,8 @@ class CustomUser(AbstractUser):
         validators=[validate_avatar]
     )
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} ({self.username})'
 
 
 """
